@@ -66,7 +66,9 @@ defmodule NewRelixir.Plug.Instrumentation do
   end
 
   defp record(opts, elapsed) do
-    if (conn = Keyword.get(opts, :conn)) && (transaction = Map.get(conn.private, :new_relixir_transaction)) do
+    conn = Keyword.get(opts, :conn)
+    transaction = Map.get(conn.private, :new_relixir_transaction)
+    if (conn && transaction) do
       NewRelixir.Transaction.record_db(transaction, get_query(opts), elapsed)
     end
   end
